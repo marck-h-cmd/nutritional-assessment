@@ -1,0 +1,103 @@
+{
+    "proteicos": [
+      {
+        "nombre": "Pollo",
+        "calorias": 165,
+        "proteinas_gramos": 31.0
+      },
+      {
+        "nombre": "Pescado",
+        "calorias": 140,
+        "proteinas_gramos": 26.0
+      },
+      {
+        "nombre": "Tofu",
+        "calorias": 76,
+        "proteinas_gramos": 8.0
+      },
+      {
+        "nombre": "Huevo",
+        "calorias": 155,
+        "proteinas_gramos": 13.0
+      }
+    ],
+    "carbohidratos": [
+      {
+        "nombre": "Arroz",
+        "calorias": 130,
+        "proteinas_gramos": 2.7
+      },
+      {
+        "nombre": "Pan integral",
+        "calorias": 247,
+        "proteinas_gramos": 8.8
+      },
+      {
+        "nombre": "Pasta",
+        "calorias": 131,
+        "proteinas_gramos": 5.0
+      },
+      {
+        "nombre": "Papa",
+        "calorias": 77,
+        "proteinas_gramos": 2.0
+      }
+    ],
+    "grasas_saludables": [
+      {
+        "nombre": "Palta",
+        "calorias": 160,
+        "proteinas_gramos": 2.0
+      },
+      {
+        "nombre": "Aceite de oliva",
+        "calorias": 884,
+        "proteinas_gramos": 0.0
+      },
+      {
+        "nombre": "Nueces",
+        "calorias": 654,
+        "proteinas_gramos": 15.0
+      }
+    ],
+    "lacteos": [
+      {
+        "nombre": "Leche",
+        "calorias": 42,
+        "proteinas_gramos": 3.4
+      },
+      {
+        "nombre": "Yogur natural",
+        "calorias": 59,
+        "proteinas_gramos": 10.0
+      },
+      {
+        "nombre": "Queso fresco",
+        "calorias": 264,
+        "proteinas_gramos": 14.0
+      }
+    ],
+    "frutas": [
+      {
+        "nombre": "Manzana",
+        "calorias": 52,
+        "proteinas_gramos": 0.3
+      },
+      {
+        "nombre": "Plátano",
+        "calorias": 89,
+        "proteinas_gramos": 1.1
+      },
+      {
+        "nombre": "Naranja",
+        "calorias": 47,
+        "proteinas_gramos": 0.9
+      },
+      {
+        "nombre": "Fresas",
+        "calorias": 32,
+        "proteinas_gramos": 0.7
+      }
+    ]
+  }
+  
