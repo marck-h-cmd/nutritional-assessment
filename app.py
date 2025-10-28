@@ -31,8 +31,8 @@ restricciones, objetivo, objetivo_seleccionado, generar = mostrar_sidebar()
 
 if generar:
     with st.spinner(" Generando tu menú personalizado..."):
-        menu = generar_menu_semanal(restricciones, objetivo, onto)
+        menu, insights = generar_menu_semanal(restricciones, objetivo, onto)
     
-    mostrar_menu_generado(menu, restricciones, objetivo_seleccionado)
+    mostrar_menu_generado(menu, restricciones, objetivo_seleccionado, insights)
 else:
     mostrar_pantalla_inicial()

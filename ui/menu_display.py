@@ -1,7 +1,8 @@
 import streamlit as st
 from engine.generador_menu import calcular_nutricion_comida
+from engine.generador_menu import generar_explicacion
 
-def mostrar_menu_generado(menu, restricciones, objetivo_seleccionado):
+def mostrar_menu_generado(menu, restricciones, objetivo_seleccionado, insights):
     st.success("✅ ¡Menú generado exitosamente!")
     
     col1, col2 = st.columns(2)
@@ -21,6 +22,16 @@ def mostrar_menu_generado(menu, restricciones, objetivo_seleccionado):
             st.write(f"**{objetivo_seleccionado}**")
         else:
             st.write("Alimentación balanceada general")
+    
+    st.markdown("---")
+    st.markdown("## 💡 Explicación de tu Plan Personalizado")
+
+    # Generar el texto usando la nueva función
+    explicacion, conclusion = generar_explicacion(insights, objetivo_seleccionado, restricciones)
+
+    with st.expander("Ver por qué se eligió este menú"):
+        st.markdown(explicacion, unsafe_allow_html=True)
+        st.markdown(conclusion, unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("## 📅 Menú Semanal")
@@ -98,3 +109,4 @@ def mostrar_menu_generado(menu, restricciones, objetivo_seleccionado):
                 <p><strong>Proteínas totales:</strong> {prots_totales:.1f}g</p>
             </div>
             """, unsafe_allow_html=True)
+            
