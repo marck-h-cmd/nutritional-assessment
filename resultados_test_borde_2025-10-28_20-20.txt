@@ -1,0 +1,42 @@
+🧪 RESULTADOS DEL TEST DE CASOS BORDE
+Fecha: 2025-10-28_20-20
+Total Casos Probados: 36
+
+('RestriccionVegano', 'RestriccionVegetariano', 'RestriccionSinGluten', 'RestriccionSinLactosa', 'RestriccionDiabetico') | PerderPeso → ✅ Éxito
+('RestriccionVegano', 'RestriccionVegetariano', 'RestriccionSinGluten', 'RestriccionSinLactosa', 'RestriccionDiabetico') | GanarMusculo → ✅ Éxito
+('RestriccionVegano', 'RestriccionVegetariano', 'RestriccionSinGluten', 'RestriccionSinLactosa', 'RestriccionDiabetico') | Mantenimiento → ✅ Éxito
+('RestriccionVegano', 'RestriccionVegetariano', 'RestriccionSinGluten', 'RestriccionSinLactosa', 'RestriccionDiabetico') | AumentarEnergia → ✅ Éxito
+('RestriccionVegano',) | PerderPeso → ✅ Éxito
+('RestriccionVegano',) | GanarMusculo → ✅ Éxito
+('RestriccionVegetariano',) | PerderPeso → ✅ Éxito
+('RestriccionSinGluten',) | AumentarEnergia → ✅ Éxito
+('RestriccionVegano', 'RestriccionVegetariano') | PerderPeso → ✅ Éxito
+('RestriccionVegano', 'RestriccionVegetariano') | GanarMusculo → ✅ Éxito
+('RestriccionVegano', 'RestriccionSinGluten') | PerderPeso → ✅ Éxito
+('RestriccionVegano', 'RestriccionSinGluten') | GanarMusculo → ✅ Éxito
+('RestriccionVegano', 'RestriccionSinGluten') | Mantenimiento → ✅ Éxito
+('RestriccionVegano', 'RestriccionSinGluten') | AumentarEnergia → ✅ Éxito
+
+❗ERRORES DETECTADOS:
+❌ Sin restricciones + PerderPeso → 🚫 Pescado no apto para ()
+❌ Sin restricciones + GanarMusculo → 🚫 Pollo no apto para ()
+❌ Sin restricciones + Mantenimiento → 🚫 Huevos no apto para ()
+❌ Sin restricciones + AumentarEnergia → 🚫 PanIntegral no apto para ()
+❌ ('RestriccionVegano',) + Mantenimiento → 🚫 PanIntegral no apto para ('RestriccionVegano',)
+❌ ('RestriccionVegano',) + AumentarEnergia → 🚫 PanIntegral no apto para ('RestriccionVegano',)
+❌ ('RestriccionVegetariano',) + GanarMusculo → 🚫 Huevos no apto para ('RestriccionVegetariano',)
+❌ ('RestriccionVegetariano',) + Mantenimiento → 🚫 Huevos no apto para ('RestriccionVegetariano',)
+❌ ('RestriccionVegetariano',) + AumentarEnergia → 🚫 PanIntegral no apto para ('RestriccionVegetariano',)
+❌ ('RestriccionSinGluten',) + PerderPeso → 🚫 Pollo no apto para ('RestriccionSinGluten',)
+❌ ('RestriccionSinGluten',) + GanarMusculo → 🚫 Huevos no apto para ('RestriccionSinGluten',)
+❌ ('RestriccionSinGluten',) + Mantenimiento → 🚫 Huevos no apto para ('RestriccionSinGluten',)
+❌ ('RestriccionSinLactosa',) + PerderPeso → 🚫 Pollo no apto para ('RestriccionSinLactosa',)
+❌ ('RestriccionSinLactosa',) + GanarMusculo → 🚫 Huevos no apto para ('RestriccionSinLactosa',)
+❌ ('RestriccionSinLactosa',) + Mantenimiento → 🚫 Huevos no apto para ('RestriccionSinLactosa',)
+❌ ('RestriccionSinLactosa',) + AumentarEnergia → 🚫 PanIntegral no apto para ('RestriccionSinLactosa',)
+❌ ('RestriccionDiabetico',) + PerderPeso → 🚫 Pescado no apto para ('RestriccionDiabetico',)
+❌ ('RestriccionDiabetico',) + GanarMusculo → 🚫 Pollo no apto para ('RestriccionDiabetico',)
+❌ ('RestriccionDiabetico',) + Mantenimiento → 🚫 PanIntegral no apto para ('RestriccionDiabetico',)
+❌ ('RestriccionDiabetico',) + AumentarEnergia → 🚫 PanIntegral no apto para ('RestriccionDiabetico',)
+❌ ('RestriccionVegano', 'RestriccionVegetariano') + Mantenimiento → 🚫 PanIntegral no apto para ('RestriccionVegano', 'RestriccionVegetariano')
+❌ ('RestriccionVegano', 'RestriccionVegetariano') + AumentarEnergia → 🚫 PanIntegral no apto para ('RestriccionVegano', 'RestriccionVegetariano')
