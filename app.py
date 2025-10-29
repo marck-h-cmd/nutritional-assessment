@@ -9,6 +9,7 @@ from ui.estilos import configurar_estilos
 from ui.sidebar import mostrar_sidebar
 from ui.menu_display import mostrar_menu_generado
 from ui.pantalla_inicial import mostrar_pantalla_inicial
+from tests.explicacion import mostrar_explicacion_view
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -122,6 +123,8 @@ if st.button("🚀 Ejecutar test de validación"):
                 # ---- Mostrar contenido detallado ----
                 with st.expander("📋 Ver archivo de resultados completo"):
                     st.text(contenido)
+                    
+                
             else:
                 st.info("No se encontró ningún archivo de resultados `resultados_test_borde_*.txt` en la carpeta del proyecto.")
 
@@ -129,7 +132,9 @@ if st.button("🚀 Ejecutar test de validación"):
             st.error("❌ Error durante la ejecución del test. Verifica el archivo caso_borde.py.")
         except Exception as e:
             st.error(f"⚠️ Error inesperado: {e}")
+st.markdown("---")
 
+mostrar_explicacion_view()
 
 st.markdown("---")
 st.caption("© 2025 — Sistema Experto Nutricional desarrollado en Python + Streamlit + Ontologías OWL 🧠")
