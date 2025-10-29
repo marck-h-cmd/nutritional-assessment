@@ -96,35 +96,61 @@ def calcular_nutricion_comida(alimentos):
 
 def generar_explicacion(insights, objetivo_seleccionado, restricciones):
     """
-    Genera una explicación en texto legible sobre por qué se creó el menú.
+    Genera una explicación de trazabilidad, instanciando la regla de inferencia
+    para cada alimento evaluado, en el formato Alimento: Regla.
     """
     
-    explicacion = f"### 💡 ¿Por qué este menú?"
+    # Plantillas de reglas lógicas. Usaremos .format() para instanciarlas.
+    mapa_reglas = {
+        "Vegano": "∀x (Vegano(Usuario) ∧ Contiene({alimento}, ProductoAnimal)) → ¬Apto({alimento})",
+        "Vegetariano": "∀x (Vegetariano(Usuario) ∧ Contiene({alimento}, ProductoAnimal) ∧ ¬EsLacteo({alimento}) ∧ ¬EsHuevo({alimento})) → ¬Apto({alimento})",
+        "SinGluten": "∀x (SinGluten(Usuario) ∧ Contiene({alimento}, Gluten)) → ¬Apto({alimento})",
+        "SinLactosa": "∀x (SinLactosa(Usuario) ∧ Contiene({alimento}, Lactosa)) → ¬Apto({alimento})",
+        "Diabetico": "∀x (Diabetico(Usuario) ∧ Contiene({alimento}, Azucar)) → ¬Apto({alimento})"
+    }
+    regla_inclusion = "∀x (Objetivo(Usuario, {objetivo}) ∧ ApropiadoPara({alimento}, {objetivo})) → Recomendar({alimento})"
+
+    explicacion = "### 🔍 Trazabilidad del Razonamiento\n\n"
+    explicacion += "**1. Evidencia (Hechos Iniciales):**\n"
+    explicacion += "El motor de inferencia partió de los siguientes hechos proporcionados por el usuario:\n"
     
     if restricciones:
         nombres_restricciones = [r.replace('Restriccion', '') for r in restricciones]
-        explicacion += f"\n\nTu plan se ha diseñado específicamente para cumplir con tu objetivo de **{objetivo_seleccionado}** y respetando tus restricciones: **{', '.join(nombres_restricciones)}**."
+        explicacion += f"- **Hecho 1 (Restricciones):** `{', '.join(nombres_restricciones)}`\n"
     else:
-        explicacion += f"\n\nTu plan se ha diseñado específicamente para cumplir con tu objetivo de **{objetivo_seleccionado}**, sin restricciones alimenticias seleccionadas."
-    
-    explicacion += "\n\n**1. Selección de Alimentos Clave:**"
-    
-    if insights.get('candidatos_finales'):
-        num_candidatos = len(insights['candidatos_finales'])
-        muestra_candidatos = insights['candidatos_finales'][:min(num_candidatos, 5)]
-        
-        explicacion += f"\nPara ayudarte a conseguir tu objetivo, hemos priorizado alimentos como: **{', '.join([a.name for a in muestra_candidatos])}**. "
-        explicacion += f"Estos son especialmente efectivos porque son apropiados para **{objetivo_seleccionado}**."
-    else:
-        explicacion += "\nNo se encontraron alimentos específicos para tu objetivo, por lo que se usó una base de alimentos compatibles general."
+        explicacion += "- **Hecho 1 (Restricciones):** `Ninguna`\n"
+
+    explicacion += f"- **Hecho 2 (Objetivo):** `{objetivo_seleccionado}`\n"
+
+    conclusion = "\n**2. Traza de Inferencias por Alimento:**\n"
+    conclusion += "Se aplicaron las siguientes reglas de inferencia a la base de conocimiento:\n"
 
     if insights.get('alimentos_descartados'):
-        explicacion += "\n\n**2. Alimentos Excluidos:**"
-        explicacion += "\nPara cumplir con tu perfil, hemos evitado ciertos alimentos. Por ejemplo:"
+        conclusion += "\n**Inferencias de Exclusión:**\n"
         
-        for item in insights['alimentos_descartados'][:2]:
-            explicacion += f"\n- **{item['alimento']}** fue excluido por ser incompatible con tu restricción de **{item['razon'].split(' ')[-1]}**."
+        for item in insights['alimentos_descartados'][:3]:
+            alimento_nombre = item['alimento']
+            motivo = item['razon']
+            regla_encontrada = None
 
-    conclusion = f"### ✅ Conclusión\n\nEste menú te proporciona una base sólida y balanceada, combinando macronutrientes y micronutrientes para mantenerte con energía y ayudarte a alcanzar tu meta de **{objetivo_seleccionado}**. La variedad de alimentos asegura que obtengas un amplio espectro de vitaminas y minerales."
+            for clave_regla in mapa_reglas:
+                if clave_regla in motivo:
+                    regla_encontrada = mapa_reglas[clave_regla]
+                    break
+            
+            if regla_encontrada:
+                regla_instanciada = regla_encontrada.format(alimento=alimento_nombre)
+                conclusion += f"- **{alimento_nombre}:** ```{regla_instanciada}```\n"
+
+    if insights.get('candidatos_finales'):
+        conclusion += "\n**Inferencias de Inclusión:**\n"
+        
+        # Tomamos hasta 3 ejemplos
+        for alimento_obj in insights['candidatos_finales'][:3]:
+            alimento_nombre = alimento_obj.name
+            regla_instanciada = regla_inclusion.format(alimento=alimento_nombre, objetivo=objetivo_seleccionado)
+            conclusion += f"- **{alimento_nombre}:** ```{regla_instanciada}```\n"
+            
+    conclusion += "\n---\n**Resultado Final:** El menú se construye utilizando únicamente los alimentos que resultaron **`Recomendados`**."
 
     return explicacion, conclusion

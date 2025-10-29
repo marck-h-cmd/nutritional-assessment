@@ -42,5 +42,11 @@ def mostrar_sidebar():
         
         st.markdown("---")
         st.info("💡 **Tip:** Selecciona tus restricciones y objetivo para obtener un menú personalizado")
+
+        st.markdown("---")
+        st.warning("""
+        **Política de Uso Responsable:**
+        Esta herramienta es un asistente. La decisión final debe ser tomada por un humano calificado (ej. un nutricionista).
+        """)
     
     return restricciones, objetivo, objetivo_seleccionado, generar
