@@ -1,7 +1,7 @@
 ﻿import streamlit as st
 import subprocess
 import os
-
+import glob
 from knowledge.ontologia import crear_ontologia
 from knowledge.individuos import crear_individuos
 from engine.generador_menu import generar_menu_semanal
@@ -9,6 +9,10 @@ from ui.estilos import configurar_estilos
 from ui.sidebar import mostrar_sidebar
 from ui.menu_display import mostrar_menu_generado
 from ui.pantalla_inicial import mostrar_pantalla_inicial
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+RESULTS_DIR = os.path.join(BASE_DIR, "results")
+TESTS_DIR = os.path.join(BASE_DIR, "tests")
 
 st.set_page_config(
     page_title="Asesor Nutricional Personalizado",
@@ -63,14 +67,14 @@ if st.button("🚀 Ejecutar test de validación"):
             # -------------------------------
             # 📊 Mostrar gráfico global
             # -------------------------------
-            grafico_global = "grafico_resultados_borde.png"
+            grafico_global = os.path.join(RESULTS_DIR, "grafico_resultados_borde.png")
             if os.path.exists(grafico_global):
                 st.image(grafico_global, caption="📊 Resumen Global del Test de Casos Borde")
 
             # -------------------------------
             # 📄 Mostrar resumen estadístico y archivo de resultados
             # -------------------------------
-            archivos_txt = [f for f in os.listdir() if f.startswith("resultados_test_borde")]
+            archivos_txt = glob.glob(os.path.join(RESULTS_DIR, "resultados_test_borde_*.txt"))
             if archivos_txt:
                 ultimo = sorted(archivos_txt)[-1]
                 with open(ultimo, "r", encoding="utf-8") as f:

@@ -113,31 +113,7 @@ def mostrar_pantalla_inicial():
         - 🌰 Leche de almendra (apta para todos)
         """)
     
-    with st.expander("⚙️ Instalación y Requisitos"):
-        st.markdown("""
-        ### Requisitos del Sistema
-        
-        ```bash
-        # Instalar dependencias
-        pip install streamlit owlready2
-        
-        # Ejecutar la aplicación
-        streamlit run app.py
-        ```
-        
-        **Bibliotecas utilizadas:**
-        - `streamlit`: Framework para la interfaz web
-        - `owlready2`: Manejo de ontologías OWL y razonamiento
-        
-        **Características:**
-        - ✅ Razonamiento lógico automático
-        - ✅ Ontología OWL completa
-        - ✅ Interfaz moderna y responsive
-        - ✅ Generación de menús personalizados
-        - ✅ Cálculo nutricional en tiempo real
-        """)
-    
-    st.markdown("---")
+
     st.markdown("## 🎓 Ejemplo de Inferencia")
     
     col1, col2 = st.columns([1, 1])

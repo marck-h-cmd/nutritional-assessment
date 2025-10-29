@@ -16,3 +16,6 @@ env/
 # VSCode or other IDEs
 .vscode/
 .idea/
+
+# Results
+results/

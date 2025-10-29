@@ -3,7 +3,6 @@ import os
 import itertools
 import datetime
 import matplotlib.pyplot as plt
-from collections import Counter
 
 # AJUSTAR RUTA DEL PROYECTO
 
@@ -44,7 +43,7 @@ def ejecutar_test_borde_dinamico():
     resultados = []
     errores = []
 
-    print("🔬 INICIANDO TEST DE CASOS BORDE\n")
+    print("INICIANDO TEST DE CASOS BORDE\n")
 
     #  DEFINIMOS CASOS BORDE REALES
 
@@ -60,14 +59,14 @@ def ejecutar_test_borde_dinamico():
     combinaciones_dobles = list(itertools.combinations(TODAS_RESTRICCIONES, 2))[:2]
     casos_borde += combinaciones_dobles
 
-    print(f"📋 Total de casos borde generados: {len(casos_borde)}\n")
+    print(f"Total de casos borde generados: {len(casos_borde)}\n")
 
     # EJECUCIÓN DE PRUEBAS
     for restricciones in casos_borde:
         for objetivo in OBJETIVOS:
             try:
                 menu, insights = generar_menu_semanal(restricciones, objetivo, onto)
-                assert menu and isinstance(menu, dict), "❌ Menú vacío o mal generado"
+                assert menu and isinstance(menu, dict), "Menú vacío o mal generado"
 
                 # Verificar alimentos prohibidos
                 for dia, comidas in menu.items():
@@ -75,37 +74,37 @@ def ejecutar_test_borde_dinamico():
                         for alimento in lista:
                             nombre = getattr(alimento, "name", str(alimento))
                             for prohibido in ALIMENTOS_PROHIBIDOS:
-                                assert prohibido.lower() not in nombre.lower(), f"🚫 {nombre} no apto para {restricciones}"
+                                assert prohibido.lower() not in nombre.lower(), f"X {nombre} no apto para {restricciones}"
 
-                resultados.append((restricciones, objetivo, "✅ Éxito"))
-                print(f"✅ {restricciones if restricciones else 'Sin restricciones'} + {objetivo} → Menú válido")
+                resultados.append((restricciones, objetivo, "OK Éxito"))
+                print(f"OK {restricciones if restricciones else 'Sin restricciones'} + {objetivo} -> Menú válido")
 
             except AssertionError as e:
-                error_msg = f"❌ {restricciones if restricciones else 'Sin restricciones'} + {objetivo} → {e}"
+                error_msg = f"ERROR {restricciones if restricciones else 'Sin restricciones'} + {objetivo} -> {e}"
                 errores.append(error_msg)
                 print(error_msg)
             except Exception as e:
-                error_msg = f"💥 {restricciones if restricciones else 'Sin restricciones'} + {objetivo} → Error inesperado: {e}"
+                error_msg = f"CRASH {restricciones if restricciones else 'Sin restricciones'} + {objetivo} -> Error inesperado: {e}"
                 errores.append(error_msg)
                 print(error_msg)
 
 
     # GUARDAR RESULTADOS EN ARCHIVO
-
+    os.makedirs("results", exist_ok=True)
     fecha = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
-    archivo = f"resultados_test_borde_{fecha}.txt"
+    archivo = f"results/resultados_test_borde_{fecha}.txt"
 
     with open(archivo, "w", encoding="utf-8") as f:
-        f.write("🧪 RESULTADOS DEL TEST DE CASOS BORDE\n")
+        f.write("RESULTADOS DEL TEST DE CASOS BORDE\n")
         f.write(f"Fecha: {fecha}\n")
         total = len(casos_borde) * len(OBJETIVOS)
         f.write(f"Total Casos Probados: {total}\n\n")
 
         for r in resultados:
-            f.write(f"{r[0]} | {r[1]} → {r[2]}\n")
+            f.write(f"{r[0]} | {r[1]} -> {r[2]}\n")
 
         if errores:
-            f.write("\n❗ERRORES DETECTADOS:\n")
+            f.write("\nERRORES DETECTADOS:\n")
             for e in errores:
                 f.write(f"{e}\n")
 
@@ -116,14 +115,14 @@ def ejecutar_test_borde_dinamico():
     fallidos = len(errores)
     porcentaje_exito = (exitosos / total) * 100
 
-    print("\n📊 RESUMEN FINAL")
-    print(f"✅ Casos exitosos: {exitosos}")
-    print(f"⚠️ Casos con errores: {fallidos}")
-    print(f"📈 Tasa de Éxito: {porcentaje_exito:.2f}%")
-    print(f"📝 Resultados guardados en: {archivo}\n")
+    print("\nRESUMEN FINAL")
+    print(f"Casos exitosos: {exitosos}")
+    print(f"Casos con errores: {fallidos}")
+    print(f"Tasa de Éxito: {porcentaje_exito:.2f}%")
+    print(f"Resultados guardados en: {archivo}\n")
 
     resumen = f"""
-    🧮 RESUMEN ESTADÍSTICO
+    RESUMEN ESTADÍSTICO
     -----------------------------
     Casos Totales: {total}
     Casos Exitosos: {exitosos}
@@ -144,14 +143,15 @@ def ejecutar_test_borde_dinamico():
     plt.bar(etiquetas, valores, color=colores)
     plt.title("Resumen Global del Test de Casos Borde", fontsize=14, fontweight='bold')
     plt.xlabel("Tipo de Resultado")
+    
     plt.ylabel("Cantidad de Casos")
     for i, v in enumerate(valores):
         plt.text(i, v + 0.3, str(v), ha='center', fontweight='bold')
     plt.tight_layout()
-    plt.savefig("grafico_resultados_borde.png", dpi=300)
+    plt.savefig("results/grafico_resultados_borde.png", dpi=300)
     plt.show()
 
-    print("📈 Gráfico global generado: grafico_resultados_borde.png")
+    print("Gráfico global generado: grafico_resultados_borde.png")
 
 #  EJECUCIÓN DIRECTA
 
