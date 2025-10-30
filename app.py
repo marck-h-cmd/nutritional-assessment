@@ -1,5 +1,6 @@
 ﻿import streamlit as st
 import subprocess
+import sys  
 import os
 import glob
 from knowledge.ontologia import crear_ontologia
@@ -9,6 +10,7 @@ from ui.estilos import configurar_estilos
 from ui.sidebar import mostrar_sidebar
 from ui.menu_display import mostrar_menu_generado
 from ui.pantalla_inicial import mostrar_pantalla_inicial
+from tests.explicacion import mostrar_explicacion_view
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
@@ -60,8 +62,9 @@ st.info(
 if st.button("🚀 Ejecutar test de validación"):
     with st.spinner("Ejecutando test de casos borde... Esto puede tardar unos segundos ⏳"):
         try:
-            # Ejecutar el script del test
-            subprocess.run(["python", "tests/caso_borde.py"], check=True)
+            # Ejecutar el script del test usando el mismo intérprete de Python
+            # ↓ CHANGED: "python" → sys.executable
+            subprocess.run([sys.executable, "tests/caso_borde.py"], check=True)
             st.success("✅ Test ejecutado correctamente. Se generaron los archivos de resultados.")
             
             # -------------------------------
@@ -91,8 +94,12 @@ if st.button("🚀 Ejecutar test de validación"):
                             total = None
                         break
 
-                exitos = sum(1 for l in lineas if "✅" in l or "Éxito" in l)
-                fallidos = sum(1 for l in lineas if "❌" in l or "Error" in l)
+                exitos = sum(1 for l in lineas if "OK Éxito" in l or "Éxito" in l)
+                fallidos = sum(   1 for l in lineas
+                                if ("ERROR" in l or "CRASH" in l or "Error" in l)
+                                and not l.startswith("ERRORES DETECTADOS")
+                                and not l.startswith("RESULTADOS DEL TEST")
+                               ) 
 
                 if total is None:
                     total = exitos + fallidos
@@ -122,6 +129,8 @@ if st.button("🚀 Ejecutar test de validación"):
                 # ---- Mostrar contenido detallado ----
                 with st.expander("📋 Ver archivo de resultados completo"):
                     st.text(contenido)
+                    
+                
             else:
                 st.info("No se encontró ningún archivo de resultados `resultados_test_borde_*.txt` en la carpeta del proyecto.")
 
@@ -129,7 +138,9 @@ if st.button("🚀 Ejecutar test de validación"):
             st.error("❌ Error durante la ejecución del test. Verifica el archivo caso_borde.py.")
         except Exception as e:
             st.error(f"⚠️ Error inesperado: {e}")
+st.markdown("---")
 
+mostrar_explicacion_view()
 
 st.markdown("---")
 st.caption("© 2025 — Sistema Experto Nutricional desarrollado en Python + Streamlit + Ontologías OWL 🧠")

@@ -2,6 +2,8 @@ import sys
 import os
 import itertools
 import datetime
+import matplotlib
+matplotlib.use('Agg')  # Set backend before importing pyplot
 import matplotlib.pyplot as plt
 
 # AJUSTAR RUTA DEL PROYECTO
