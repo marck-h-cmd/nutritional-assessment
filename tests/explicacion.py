@@ -34,22 +34,87 @@ def mostrar_explicacion_view():
             "Selecciona un objetivo:",
             [""] + list(objetivos.keys())
         )
+    
+    ejecutar = st.button("🚀 Ejecutar Test de Explicación")
 
-    if alimento_seleccionado and objetivo_seleccionado:
+    if alimento_seleccionado and objetivo_seleccionado and ejecutar:
         alimento = alimentos[alimento_seleccionado]
         objetivo = objetivos[objetivo_seleccionado]
         
         st.markdown("### 📋 Explicación")
         
         # Explicación de compatibilidad con objetivo
-        if objetivo in alimento.apropiado_para:
+        es_apropiado = objetivo in alimento.apropiado_para
+        if es_apropiado:
             st.success(f"✅ {alimento.name} es apropiado para {objetivo.name} porque:")
-            st.write(f"- Contiene {alimento.proteinas_gramos}g de proteína")
-            st.write("- Contiene los siguientes nutrientes:")
-            for nutriente in alimento.contiene:
-                st.write(f"  • {nutriente.name}")
         else:
             st.error(f"❌ {alimento.name} no es óptimo para {objetivo.name}")
+
+        # Reglas/criterios simples por objetivo (heurística explicativa)
+        criterios = {
+            "PerderPeso": {
+                "max_calorias": 300,
+                "min_proteinas": 10
+            },
+            "GanarMusculo": {
+                "min_proteinas": 20,
+                "min_calorias": 200
+            },
+            "Mantenimiento": {
+                "min_proteinas": 10,
+                "max_calorias": 600
+            },
+            "AumentarEnergia": {
+                "min_calorias": 250
+            }
+        }
+
+        reglas = criterios.get(objetivo.name, {})
+        razones = []
+        contras = []
+
+        calorias = getattr(alimento, "calorias", None)
+        proteinas = getattr(alimento, "proteinas_gramos", None)
+
+        if "min_proteinas" in reglas and proteinas is not None:
+            if proteinas >= reglas["min_proteinas"]:
+                razones.append(f"Proteínas suficientes (≥ {reglas['min_proteinas']}g): {proteinas}g")
+            else:
+                contras.append(f"Proteínas insuficientes (< {reglas['min_proteinas']}g): {proteinas}g")
+
+        if "max_calorias" in reglas and calorias is not None:
+            if calorias <= reglas["max_calorias"]:
+                razones.append(f"Calorías contenidas (≤ {reglas['max_calorias']}): {calorias}")
+            else:
+                contras.append(f"Calorías elevadas (> {reglas['max_calorias']}): {calorias}")
+
+        if "min_calorias" in reglas and calorias is not None:
+            if calorias >= reglas["min_calorias"]:
+                razones.append(f"Aporta energía (≥ {reglas['min_calorias']} kcal): {calorias}")
+            else:
+                contras.append(f"Bajo aporte energético (< {reglas['min_calorias']} kcal): {calorias}")
+
+        # Nutrientes presentes
+        nutrientes = [getattr(n, "name", str(n)) for n in getattr(alimento, "contiene", [])]
+
+        # Mostrar detalle de por qué decidió eso
+        st.markdown("### 🧠 Por qué el sistema decidió esto")
+        if razones:
+            st.write("- Factores a favor:")
+            for r in razones:
+                st.write(f"  • {r}")
+        if contras:
+            st.write("- Factores en contra:")
+            for c in contras:
+                st.write(f"  • {c}")
+        if not razones and not contras:
+            st.write("- No hay reglas cuantitativas aplicables; decisión basada en la ontología (`apropiado_para`).")
+
+        # Nutrientes relevantes
+        if nutrientes:
+            st.write("- Nutrientes identificados:")
+            for n in nutrientes:
+                st.write(f"  • {n}")
         
         # Información nutricional
         st.markdown("### 🍎 Información Nutricional")

@@ -51,5 +51,34 @@ def configurar_estilos():
             color: white;
             margin: 1rem 0;
         }
+        
+        .feature-card {
+        background: white;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        text-align: center;
+        height: 100%;
+        transition: transform 0.3s ease;
+        color: black;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    .step-container {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+    }
+    .food-category {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 0.5rem 0;
+        border-left: 4px solid #667eea;
+        color: black;
+        
     </style>
     """, unsafe_allow_html=True)
