@@ -94,8 +94,12 @@ if st.button("🚀 Ejecutar test de validación"):
                             total = None
                         break
 
-                exitos = sum(1 for l in lineas if "✅" in l or "Éxito" in l)
-                fallidos = sum(1 for l in lineas if "❌" in l or "Error" in l)
+                exitos = sum(1 for l in lineas if "OK Éxito" in l or "Éxito" in l)
+                fallidos = sum(   1 for l in lineas
+                                if ("ERROR" in l or "CRASH" in l or "Error" in l)
+                                and not l.startswith("ERRORES DETECTADOS")
+                                and not l.startswith("RESULTADOS DEL TEST")
+                               ) 
 
                 if total is None:
                     total = exitos + fallidos
