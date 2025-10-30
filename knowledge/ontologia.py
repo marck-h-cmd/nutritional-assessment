@@ -23,6 +23,7 @@ def crear_ontologia():
         class SinGluten(Restriccion): pass
         class SinLactosa(Restriccion): pass
         class Diabetico(Restriccion): pass
+        class Hipertenso(Restriccion): pass
 
         class contiene(ObjectProperty):
             domain = [Alimento]
