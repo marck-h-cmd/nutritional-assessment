@@ -1,5 +1,6 @@
 ﻿import streamlit as st
 import subprocess
+import sys  
 import os
 import glob
 from knowledge.ontologia import crear_ontologia
@@ -61,8 +62,9 @@ st.info(
 if st.button("🚀 Ejecutar test de validación"):
     with st.spinner("Ejecutando test de casos borde... Esto puede tardar unos segundos ⏳"):
         try:
-            # Ejecutar el script del test
-            subprocess.run(["python", "tests/caso_borde.py"], check=True)
+            # Ejecutar el script del test usando el mismo intérprete de Python
+            # ↓ CHANGED: "python" → sys.executable
+            subprocess.run([sys.executable, "tests/caso_borde.py"], check=True)
             st.success("✅ Test ejecutado correctamente. Se generaron los archivos de resultados.")
             
             # -------------------------------
