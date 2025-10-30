@@ -140,6 +140,82 @@ if st.button("🚀 Ejecutar test de validación"):
             st.error(f"⚠️ Error inesperado: {e}")
 st.markdown("---")
 
+# -------------------------------
+# Test: Inferencia Correcta (desde la app)
+# -------------------------------
+st.markdown("## 🔬 Validación del Sistema — Inferencia Correcta")
+
+st.info(
+    "🔎 Este test valida reglas e inferencias concretas del razonador: vegano, vegetariano, sin gluten, "
+    "sin lactosa, diabético y algunos casos especiales (huevos, incompatibleCon)."
+)
+
+if st.button("🚀 Ejecutar test de inferencia correcta"):
+    with st.spinner("Ejecutando test de inferencia correcta..."):
+        try:
+            subprocess.run([sys.executable, "tests/inferencia_correcta.py"], check=True)
+            st.success("✅ Test ejecutado correctamente. Se generó el archivo de resultados.")
+
+            # Buscar el archivo de resultados más reciente
+            archivos_txt = glob.glob(os.path.join(RESULTS_DIR, "resultados_inferencia_correcta_*.txt"))
+            if archivos_txt:
+                ultimo = sorted(archivos_txt)[-1]
+                with open(ultimo, "r", encoding="utf-8") as f:
+                    contenido = f.read()
+
+                # Extraer métricas desde el encabezado del archivo
+                total = None
+                exitos = None
+                fallos = None
+                for l in contenido.splitlines()[:10]:
+                    if l.startswith("Total:"):
+                        try:
+                            total = int(l.split(":", 1)[1].strip())
+                        except:
+                            total = None
+                    if l.startswith("Exitos:"):
+                        try:
+                            exitos = int(l.split(":", 1)[1].strip())
+                        except:
+                            exitos = None
+                    if l.startswith("Fallos:"):
+                        try:
+                            fallos = int(l.split(":", 1)[1].strip())
+                        except:
+                            fallos = None
+
+                if total is None and exitos is not None and fallos is not None:
+                    total = exitos + fallos
+
+                porcentaje_exito = (exitos / total * 100) if (total and exitos is not None) else 0
+
+                st.markdown("### 📈 Resumen Estadístico - Inferencia Correcta")
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("Casos Totales", total if total is not None else "-")
+                c2.metric("Casos Exitosos", exitos if exitos is not None else "-", f"{(exitos/total*100):.1f}%" if total and exitos is not None else "")
+                c3.metric("Casos con Error", fallos if fallos is not None else "-", f"{(fallos/total*100):.1f}%" if total and fallos is not None else "")
+
+                if porcentaje_exito >= 80:
+                    estado = "Excelente"
+                elif porcentaje_exito >= 60:
+                    estado = "Aceptable"
+                else:
+                    estado = "Crítico"
+
+                c4.metric("Tasa de Éxito Global", f"{porcentaje_exito:.2f}%" if total else "-", estado)
+
+                with st.expander("📋 Ver archivo de resultados completo"):
+                    st.text(contenido)
+            else:
+                st.info("No se encontró ningún archivo de resultados `resultados_inferencia_correcta_*.txt` en la carpeta de resultados.")
+
+        except subprocess.CalledProcessError:
+            st.error("❌ Error durante la ejecución del test. Revisa `tests/inferencia_correcta.py`.")
+        except Exception as e:
+            st.error(f"⚠️ Error inesperado: {e}")
+
+st.markdown("---")
+
 mostrar_explicacion_view()
 
 st.markdown("---")

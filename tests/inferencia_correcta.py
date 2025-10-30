@@ -7,9 +7,6 @@ y el generador de menús (`engine.generador_menu`) toman decisiones lógicas
 esperadas ante restricciones (vegano, vegetariano, sin gluten, sin lactosa,
 diabético).
 
-Genera un archivo de resultados de texto en `results/` y un gráfico PNG
-con el resumen de aciertos/errores similar a `tests/caso_borde.py`.
-
 Este test fija la semilla aleatoria para obtener resultados reproducibles.
 """
 import sys
