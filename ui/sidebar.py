@@ -5,7 +5,8 @@ def mostrar_sidebar():
         "Perder Peso": "PerderPeso",
         "Ganar Músculo": "GanarMusculo",
         "Mantenimiento": "Mantenimiento",
-        "Aumentar Energía": "AumentarEnergia"
+        "Aumentar Energía": "AumentarEnergia",
+        "Salud Cardiovascular": "SaludCardiovascular"
     }
     
     with st.sidebar:
@@ -25,6 +26,8 @@ def mostrar_sidebar():
             restricciones.append("RestriccionSinLactosa")
         if st.checkbox("🍬 Diabético"):
             restricciones.append("RestriccionDiabetico")
+        if st.checkbox("🩸 Hipertenso"):
+            restricciones.append("RestriccionHipertenso")
         
         st.markdown("---")
         

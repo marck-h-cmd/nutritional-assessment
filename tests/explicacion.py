@@ -8,7 +8,10 @@ def mostrar_explicacion_view():
     crear_individuos(onto)
     
     st.header("🔍 Validación del Sistema — Test de Explicación")
-
+    st.info(
+        "🔍 Este test valida las explicaciones que genera el sistema experto sobre "
+        "la compatibilidad entre alimentos y objetivos nutricionales. "
+    )
     # Mapa de alimentos disponibles
     alimentos = {
         alimento.name: alimento 

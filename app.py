@@ -48,6 +48,11 @@ if generar:
     mostrar_menu_generado(menu, restricciones, objetivo_seleccionado, insights)
 else:
     mostrar_pantalla_inicial()
+    
+st.warning("""
+        **Política de Uso Responsable:**
+        Esta herramienta es un asistente. La decisión final debe ser tomada por un humano calificado (ej. un nutricionista).
+        """)
 
 #  TEST DE CASOS BORDE (desde la app)
 st.markdown("---")

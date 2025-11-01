@@ -106,7 +106,8 @@ def generar_explicacion(insights, objetivo_seleccionado, restricciones):
         "Vegetariano": "∀x (Vegetariano(Usuario) ∧ Contiene({alimento}, ProductoAnimal) ∧ ¬EsLacteo({alimento}) ∧ ¬EsHuevo({alimento})) → ¬Apto({alimento})",
         "SinGluten": "∀x (SinGluten(Usuario) ∧ Contiene({alimento}, Gluten)) → ¬Apto({alimento})",
         "SinLactosa": "∀x (SinLactosa(Usuario) ∧ Contiene({alimento}, Lactosa)) → ¬Apto({alimento})",
-        "Diabetico": "∀x (Diabetico(Usuario) ∧ Contiene({alimento}, Azucar)) → ¬Apto({alimento})"
+        "Diabetico": "∀x (Diabetico(Usuario) ∧ Contiene({alimento}, Azucar)) → ¬Apto({alimento})",
+        "Hipertenso": "∀x (Hipertenso(Usuario) ∧ Contiene({alimento}, Sodio)) → ¬Apto({alimento})"
     }
     regla_inclusion = "∀x (Objetivo(Usuario, {objetivo}) ∧ ApropiadoPara({alimento}, {objetivo})) → Recomendar({alimento})"
 
